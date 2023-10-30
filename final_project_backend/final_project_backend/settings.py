@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.simplejwt.toke_blacklist',
+    'anime_review',
 ]
 
 MIDDLEWARE = [
