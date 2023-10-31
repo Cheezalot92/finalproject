@@ -1,18 +1,21 @@
-from django.shortcuts import render
+from rest_framework import viewsets , permissions
 from anime_review.models import UserProfile, Shows, Reviews
-from django.http import HttpResponse
+from .serializers import UserProfileSerializer, ShowsSerializer, ReviewsSerializer
 # Create your views here.
 
-def index(request):
-    shows = Shows.objects.all()
-    return render(request, 'index.html', {'shows': shows})
+class UserProfileViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+   
 
-def show_details(request, show_id):
-    show = Shows.objects.get(id=show_id)
-    reviews = Reviews.objects.filter(show=show)
-    return render(request, 'show_detail.html', {'show': show, 'reviews':reviews})
+class ShowsViewSet(viewsets.ModelViewSet):
+    queryset = Shows.objects.all()
+    serializer_class = ShowsSerializer
+    # permission_classes = [permissions.IsAuthenticated]
 
 
-def user_profile(request, user_id):
-    user_profile = UserProfile.objects.get(id=user_id)
-    return render(request, 'user_profile.html', {'user_profile': user_profile})
+class ReviewsViewSet(viewsets.ModelViewSet):
+    queryset = Reviews.objects.all()
+    serializer_class = ReviewsSerializer
+    # permission_classes = [permissions.IsAuthenticated]

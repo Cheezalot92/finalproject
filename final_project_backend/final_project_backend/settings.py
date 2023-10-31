@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'rest_framework.simplejwt.toke_blacklist',
+    'rest_framework_simplejwt.token_blacklist',
     'anime_review',
 ]
 

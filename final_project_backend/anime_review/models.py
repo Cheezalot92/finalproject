@@ -8,7 +8,7 @@ class UserProfile(models.Model):
     password = models.CharField(max_length=256) 
     avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
     bio = models.TextField(256)
-
+    
     def __str__(self):
         return self.user.username
     
