@@ -4,29 +4,28 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    password = models.CharField(max_length=256) 
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
+    password = models.CharField(max_length=256, null=True) 
     avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
     bio = models.TextField(256)
-    
     def __str__(self):
         return self.user.username
     
 class Shows(models.Model):
-    title = models.CharField(max_length=256)
-    category = models.CharField(max_length=50)
+    title = models.CharField(max_length=256, null=True)
+    category = models.CharField(max_length=50, null=True)
     year = models.IntegerField()
     description = models.TextField()
     ratings = models.FloatField()
-    cover_art = models.ImageField
+    cover_art = models.ImageField( null=True)
 
     def __str__(self):
         return self.title
     
 
 class Reviews(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    show = models.ForeignKey(Shows, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, blank=True)
+    show = models.ForeignKey(Shows, on_delete=models.CASCADE, blank=True)
     rating = models.FloatField()
     review_text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -36,8 +35,8 @@ class Reviews(models.Model):
     
 
 class UserReviewRelationship(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    show = models.ForeignKey(Shows, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, blank=True)
+    show = models.ForeignKey(Shows, on_delete=models.CASCADE, blank=True)
     has_watched = models.BooleanField(default=False)
     review = models.ForeignKey(Reviews, on_delete=models.SET_NULL, null=True, blank=True)
 

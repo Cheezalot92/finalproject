@@ -17,8 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-# from rest_framework.routers import DefaultRouter
 from anime_review import views
+from rest_framework_simplejwt import views as jwt_views
 
 router = routers.DefaultRouter()
 router.register(r'UserProfile', views.UserProfileViewSet)
@@ -29,4 +29,11 @@ router.register(r'Reviews', views.ReviewsViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
+     path('token/', 
+          jwt_views.TokenObtainPairView.as_view(), 
+          name ='token_obtain_pair'),
+     path('token/refresh/', 
+          jwt_views.TokenRefreshView.as_view(), 
+          name ='token_refresh'),
+    path('logout/', views.LogoutView.as_view(), name ='logout')
 ]
