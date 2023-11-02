@@ -3,11 +3,19 @@ from django.conf import settings
 from django.contrib.auth.models import User
 # Create your models here.
 
+
+class Categories(models.Model):
+    name = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
     password = models.CharField(max_length=256, null=True) 
     avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
-    bio = models.TextField(256)
+    bio = models.TextField(max_length=500)
+    categories = models.ManyToManyField(Categories)
     def __str__(self):
         return self.user.username
     
@@ -34,11 +42,15 @@ class Reviews(models.Model):
         return f"{self.user.user.username}'s Review of {self.show.title}"
     
 
+
+    
+
 class UserReviewRelationship(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, blank=True)
     show = models.ForeignKey(Shows, on_delete=models.CASCADE, blank=True)
     has_watched = models.BooleanField(default=False)
     review = models.ForeignKey(Reviews, on_delete=models.SET_NULL, null=True, blank=True)
+    category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         unique_together = ('user', 'show')

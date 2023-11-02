@@ -1,59 +1,61 @@
 from rest_framework import viewsets, status
-from anime_review.models import UserProfile, Shows, Reviews
-from .serializers import UserProfileSerializer, ShowsSerializer, ReviewsSerializer
+from .models import UserProfile, Shows, Reviews, Categories
+from .serializers import UserProfileSerializer, ShowsSerializer, ReviewsSerializer, CustomTokenObtainPairSerializer, CategoriesSerializer, TokenObtainPairSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
+
+
+
 
 
 # Create your views here.
 
-class UserProfileViewSet(viewsets.ModelViewSet):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
-    permission_classes = [permissions.IsAuthenticated]
-   
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
 
-class ShowsViewSet(viewsets.ModelViewSet):
-    queryset = Shows.objects.all()
-    serializer_class = ShowsSerializer
-    permission_classes = [permissions.IsAuthenticated]
+        token['username'] = user.username
+        token['email'] = user.email
 
-
-class ReviewsViewSet(viewsets.ModelViewSet):
-    queryset = Reviews.objects.all()
-    serializer_class = ReviewsSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
+        return token
 
 class MyTokenRefreshView(TokenRefreshView):
     pass
 
+class UserProfileViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticated]
 
+class ShowsViewSet(viewsets.ModelViewSet):
+    queryset = Shows.objects.all()
+    serializer_class = ShowsSerializer
+    permission_classes = [IsAuthenticated]
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def my_view(request):
-    content = {'message': 'Hello, world!'}
-    return Response(content)
+class ReviewsViewSet(viewsets.ModelViewSet):
+    queryset = Reviews.objects.all()
+    serializer_class = ReviewsSerializer
+    permission_classes = [IsAuthenticated]
 
+class CategoriesViewSet(viewsets.ModelViewSet):
+    queryset = Categories.objects.all()
+    serializer_class = CategoriesSerializer
+    permission_classes = [IsAuthenticated]
+
+class MyTokenObtainPairView(TokenObtainPairSerializer):
+    serializer_class = CustomTokenObtainPairSerializer
+
+class MyTokenRefreshView(TokenRefreshView):
+    pass
 
 class LogoutView(APIView):
-     permission_classes = [IsAuthenticated]
-     def post(self, request):
-          
-          try:
-               refresh_token = request.data["refresh_token"]
-               token = RefreshToken(refresh_token)
-               token.blacklist()
-               return Response(status=status.HTTP_205_RESET_CONTENT)
-          except Exception as e:
-               return Response(status=status.HTTP_400_BAD_REQUEST)
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        refresh_token = request.data["refresh_token"]
+        token = RefreshToken(refresh_token)
+        token.blacklist()
+        return Response(status=status.HTTP_205_RESET_CONTENT)

@@ -1,7 +1,10 @@
-from .models import UserProfile, Shows, Reviews
+from .models import UserProfile, Shows, Reviews,Categories
 from rest_framework import serializers
-from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import MyTokenObtainPairSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.models import User
+
+
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -20,12 +23,29 @@ class ReviewsSerializer(serializers.ModelSerializer):
         model = Reviews
         fields = '__all__'
 
+        
 
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
+class CategoriesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Categories
+        fields = ('id', 'name')
 
-        token['password'] = user.password
+class CustomTokenObtainPairSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=255)
+    password = serializers.CharField(max_length=128, write_only=True)
+    token = serializers.CharField(max_length=255, read_only=True)
 
-        return token
+    def validate(self, attrs):
+        username = attrs.get('username')
+        password = attrs.get('password')
+
+        user = User.objects.filter(username=username).first()
+        if user is None or not user.check_password(password):
+            raise serializers.ValidationError('Invalid username or password.')
+
+        token = RefreshToken.for_user(user)
+        token.access_token = token.access_token
+
+        return {
+            'token': token.access_token,
+        }

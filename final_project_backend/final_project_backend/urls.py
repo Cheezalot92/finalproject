@@ -19,24 +19,18 @@ from django.urls import path, include
 from rest_framework import routers
 from anime_review import views
 from rest_framework_simplejwt import views as jwt_views
-from views import MyTokenObtainPairView, MyTokenRefreshView
+from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
+
 
 router = routers.DefaultRouter()
-router.register(r'UserProfile', views.UserProfileViewSet)
-router.register(r'Shows', views.ShowsViewSet)
-router.register(r'Reviews', views.ReviewsViewSet)
-
+router.register(r'users', views.UserProfileViewSet, basename='users')
+router.register(r'shows', views.ShowsViewSet, basename='shows')
+router.register(r'reviews', views.ReviewsViewSet, basename='reviews')
 
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
-     path('token/', 
-          jwt_views.TokenObtainPairView.as_view(), 
-          name ='token_obtain_pair'),
-     path('token/refresh/', 
-          jwt_views.TokenRefreshView.as_view(), 
-          name ='token_refresh'),
-    path('logout/', views.LogoutView.as_view(), name ='logout'),
-    path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', MyTokenRefreshView.as_view(), name='token_refresh'),
+    path('token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', views.MyTokenRefreshView.as_view(), name='token_refresh'),
+    path('logout/', views.LogoutView.as_view(), name='logout'),
 ]
