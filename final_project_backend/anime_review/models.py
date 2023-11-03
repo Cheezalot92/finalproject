@@ -1,8 +1,26 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 # Create your models here.
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True) 
+    avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
+    bio = models.TextField(max_length=500)
+    def __str__(self):
+        return self.user.username
+    
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.userprofile.save()
+    
 
 class Categories(models.Model):
     name = models.CharField(max_length=256)
@@ -10,14 +28,6 @@ class Categories(models.Model):
     def __str__(self):
         return self.name
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
-    password = models.CharField(max_length=256, null=True) 
-    avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
-    bio = models.TextField(max_length=500)
-    categories = models.ManyToManyField(Categories)
-    def __str__(self):
-        return self.user.username
     
 class Shows(models.Model):
     title = models.CharField(max_length=256, null=True)
@@ -41,8 +51,6 @@ class Reviews(models.Model):
     def __str__(self):
         return f"{self.user.user.username}'s Review of {self.show.title}"
     
-
-
     
 
 class UserReviewRelationship(models.Model):

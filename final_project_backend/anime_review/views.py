@@ -1,13 +1,13 @@
 from rest_framework import viewsets, status
 from .models import UserProfile, Shows, Reviews, Categories
-from .serializers import UserProfileSerializer, ShowsSerializer, ReviewsSerializer, CustomTokenObtainPairSerializer, CategoriesSerializer, TokenObtainPairSerializer
+from .serializers import UserProfileSerializer, ShowsSerializer, ReviewsSerializer, MyTokenObtainPairSerializer, CategoriesSerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.views import TokenRefreshView 
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import redirect
+from django.contrib.auth.hashers import make_password
 
 
 
@@ -35,8 +35,19 @@ class CategoriesViewSet(viewsets.ModelViewSet):
     serializer_class = CategoriesSerializer
     permission_classes = [IsAuthenticated]
 
-class MyTokenObtainPairView(TokenObtainPairSerializer):
+class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+
+class UserCreateView(APIView):
+    def post(self, request):
+        print(request)
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            newUser = serializer.save()
+            newUser.password = make_password(request.data["password"])
+            newUser.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LogoutView(APIView):
