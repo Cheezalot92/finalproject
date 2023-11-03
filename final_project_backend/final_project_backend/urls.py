@@ -20,6 +20,7 @@ from rest_framework import routers
 from anime_review import views
 from rest_framework_simplejwt import views as jwt_views
 from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
+from anime_review.views import MyTokenObtainPairView
 
 
 router = routers.DefaultRouter()
@@ -31,6 +32,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', views.MyTokenRefreshView.as_view(), name='token_refresh'),
+    path('token/refresh/', views.TokenRefreshView.as_view(), name='token_refresh'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
 ]

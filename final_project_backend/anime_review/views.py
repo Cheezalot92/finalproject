@@ -4,27 +4,16 @@ from .serializers import UserProfileSerializer, ShowsSerializer, ReviewsSerializ
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework_simplejwt.views import TokenRefreshView 
+from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from django.shortcuts import redirect
 
 
 
 
 # Create your views here.
 
-class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-
-        token['username'] = user.username
-        token['email'] = user.email
-
-        return token
-
-class MyTokenRefreshView(TokenRefreshView):
-    pass
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
@@ -47,10 +36,8 @@ class CategoriesViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
 class MyTokenObtainPairView(TokenObtainPairSerializer):
-    serializer_class = CustomTokenObtainPairSerializer
+    serializer_class = MyTokenObtainPairSerializer
 
-class MyTokenRefreshView(TokenRefreshView):
-    pass
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
