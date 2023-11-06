@@ -1,30 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Registration = () => {
   // Define state variables to store form input values
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const url = 'http://localhost:8000/register/'
-
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const url = "http://localhost:8000/register/";
+  const navigate = useNavigate();
   // Function to handle form submission
   const handleRegistration = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     // Create a user registration request to your backend API
     const registrationData = { username, email, password };
 
     // You can use the fetch API or an HTTP library like Axios to send the registration request
     try {
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(registrationData),
       });
-
-      if (response.status === 200) {
+      console.log({ response });
+      if (response.ok) {
+        setEmail("");
+        setPassword("");
+        setUsername("");
+        setIsLoading(false);
+        navigate("/UserProfile");
         // Registration was successful
         // You can redirect the user to a login page or any other page
       } else {
@@ -63,7 +70,12 @@ const Registration = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <button type="submit">Register</button>
+        <button
+          type="submit"
+          disabled={!email || !password || !username || isLoading}
+        >
+          Register
+        </button>
       </form>
     </div>
   );

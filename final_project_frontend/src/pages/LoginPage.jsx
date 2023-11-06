@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Registration from "./Registration";
 import NavBar from "./NavBar";
 
 export default function LoginPage() {
@@ -42,6 +41,7 @@ export default function LoginPage() {
 
     return (
         <form onSubmit={handleSubmit}>
+            <NavBar/>
             <label>Username
               <input type="text" name="username" value={username} onChange={handleChangeUsername}></input>
             </label>
