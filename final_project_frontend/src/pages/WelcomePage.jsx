@@ -1,9 +1,11 @@
 import React from "react";
 import { StyleWelcome } from "../components/WelcomePageCss";
+import NavBar from "./NavBar";
 
 export default function WelcomePage(props) {
     return (
-      <StyleWelcome>
+        <StyleWelcome>
+          <NavBar/>
     <div className="container">
       <h1>Welcome to Aniverse, {props.username}!</h1>
       <p>Your one-stop destination for all things anime!</p>

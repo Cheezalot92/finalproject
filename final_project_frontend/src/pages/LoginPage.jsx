@@ -31,7 +31,7 @@ export default function LoginPage() {
             console.log('Data is', data);
             const {access, refresh} = data;
             if (access !== undefined) {
-                window.location.href = "/UserProfile"
+                window.location.href = '/WelcomePage';
                 localStorage.clear();
                 localStorage.setItem('access_token',access)
                 localStorage.setItem('refresh_token', refresh)
