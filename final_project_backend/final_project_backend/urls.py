@@ -25,11 +25,13 @@ router = routers.DefaultRouter()
 router.register(r'users', views.UserProfileViewSet, basename='users')
 router.register(r'shows', views.ShowsViewSet, basename='shows')
 router.register(r'reviews', views.ReviewsViewSet, basename='reviews')
+router.register(r'user', views.UserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('register/', views.UserCreateView.as_view(), name="user_register"),
     path('logout/', views.LogoutView.as_view(), name='logout'),
 ]

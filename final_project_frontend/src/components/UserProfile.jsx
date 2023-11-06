@@ -1,5 +1,9 @@
-// import { useState } from "react"
+import { useState } from "react"
 import { useParams } from "react-router-dom";
+import NavBar from "../pages/NavBar";
+
+
+
 
 export default function UserProfile() {
   const { username } = useParams;
@@ -7,6 +11,7 @@ export default function UserProfile() {
   return (
     <>
       <div>
+        <NavBar/>
         <h1>{username}'s Profile</h1>
         <img src="avatar.jpg" alt="Profile Picture" />
         <p>Bio: Hello World</p>

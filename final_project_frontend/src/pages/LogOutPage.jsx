@@ -9,7 +9,7 @@ export default function LogoutPage() {
     const navigate = useNavigate();
   
     const performLogout = async () => {
-      const url = "http://localhost:8000/logout/";
+      const url = "http://localhost:8000/Logout";
       const refresh_token = localStorage.getItem("refresh_token");
       const access_token = localStorage.getItem("access_token");
   
@@ -26,14 +26,14 @@ export default function LogoutPage() {
         if (response.status === 205) {
           localStorage.clear(); // Clear user data and tokens
           setIsAuth(false); // Update the authentication state
-          navigate(`/login`); // Redirect to the login page
+            navigate(`/`); // Redirect to the login page
         } else {
           console.error("ERROR", response.status, response.statusText);
-          navigate(`/login`); // Redirect to the login page even if an error occurs
+          navigate(`/`); // Redirect to the login page even if an error occurs
         }
       } catch (error) {
         console.error("ERROR", error);
-        navigate(`/login`); // Redirect to the login page in case of an error
+        navigate(`/`); // Redirect to the login page in case of an error
       }
     };
   
@@ -44,7 +44,7 @@ export default function LogoutPage() {
       <div>
         <h1>Logout</h1>
         <p>You have been successfully logged out.</p>
-        <a href="/login">Login</a>
+        <a href="/">Login</a>
       </div>
     );
   }

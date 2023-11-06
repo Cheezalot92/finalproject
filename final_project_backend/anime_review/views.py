@@ -1,5 +1,5 @@
 from rest_framework import viewsets, status
-from .models import UserProfile, Shows, Reviews, Categories
+from .models import UserProfile, Shows, Reviews, Categories, User
 from .serializers import UserProfileSerializer, ShowsSerializer, ReviewsSerializer, MyTokenObtainPairSerializer, CategoriesSerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -48,6 +48,11 @@ class UserCreateView(APIView):
             newUser.save()
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
 class LogoutView(APIView):
