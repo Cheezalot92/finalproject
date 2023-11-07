@@ -2,6 +2,7 @@ import React from "react";
 import { StyleWelcome } from "../components/WelcomePageCss";
 import NavBar from "./NavBar";
 
+
 export default function WelcomePage(props) {
     return (
         <StyleWelcome>
