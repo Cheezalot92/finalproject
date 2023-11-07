@@ -1,9 +1,8 @@
 import { useState } from "react";
-import NavBar from "./NavBar";
 import styled from "styled-components";
 
 const LoginForm = styled.form`
-  background-color: #f2f2f2;
+  background-color: #d90b0b;
   padding: 20px;
   border-radius: 10px;
   width: 300px;
@@ -23,13 +22,14 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  background-color: #f6052d;
+  background-color: #0c0c0c;
   color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 `;
+
 
 
 
@@ -91,7 +91,7 @@ export default function LoginPage() {
           onChange={handleChangePassword}
         ></Input>
       </Label>
-      <Button type="submit">Login</Button>
+      <Button type="submit" >Login</Button>
     </LoginForm>
   );
 }

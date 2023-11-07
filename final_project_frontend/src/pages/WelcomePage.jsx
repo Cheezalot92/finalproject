@@ -8,12 +8,12 @@ export default function WelcomePage(props) {
         <StyleWelcome>
           <NavBar/>
     <div className="container">
-      <h1>Welcome to Aniverse, {props.username}!</h1>
+      <h1>Welcome to AllAnime! {props.username}!</h1>
       <p>Your one-stop destination for all things anime!</p>
 
       <div className="boxes">
         <div className="box">
-          <img src="anime-poster.jpg" alt="Random Anime Poster" />
+          <img src="../../public/Naruto.png" alt="Random Anime Poster" />
           <h2>Latest Anime</h2>
           <p>Stay up-to-date on the newest and hottest anime releases.</p>
         </div>
@@ -38,7 +38,7 @@ export default function WelcomePage(props) {
 
         <div className="box">
           <img src="community-icon.png" alt="Community Icon" />
-          <h2>Join the Aniverse Community</h2>
+          <h2>Join the AllAnime Community</h2>
           <p>Connect with fellow anime fans and expand your anime horizons.</p>
         </div>
       </div>

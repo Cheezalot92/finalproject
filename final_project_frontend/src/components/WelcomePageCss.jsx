@@ -41,6 +41,7 @@ export const StyleWelcome = styled.div`
     height: 100px;
     margin: 0 auto;
     display: block;
+
   }
   
   h2 {

@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import NavBar from "../pages/NavBar";
+
+
+
 
 const ShowList = () => {
   const [animeList, setAnimeList] = useState([]);
@@ -23,29 +27,33 @@ const ShowList = () => {
       console.error(error);
     }
   };
-    
+
   useEffect(() => {
     fetchAnimeData();
   }, []);
 
   return (
-    <div>
-      <h2>Anime List</h2>
-      <ul>
-        {animeList.map((anime) => (
-          <li key={anime.id}>
-            <h3>{anime.attributes.titles.en}</h3>
-            <img
-              src={anime.attributes.posterImage.small}
-              alt={anime.attributes.titles.en}
-            />
-                <p>Rating: {anime.attributes.averageRating}</p>
-                <p>Description: {anime.attributes.synopsis }</p>
-          </li>
-        ))}
-      </ul>
-      <button onClick={() => fetchAnimeData()}>Load More</button>
-    </div>
+    <>
+      <NavBar />
+      <div>
+        <h2>Anime List</h2>
+        <ul>
+          {animeList.map((anime) => (
+            <li key={anime.id}>
+              <h3>{anime.attributes.titles.en}</h3>
+              <img
+                src={anime.attributes.posterImage.small}
+                alt={anime.attributes.titles.en}
+              />
+              <p>Rating: {anime.attributes.averageRating}</p>
+              <p>Description: {anime.attributes.synopsis}</p>
+                  {/* <p>Popularity Rank: {anime.attributes.popularityRank}</p> */}
+            </li>
+          ))}
+        </ul>
+        <button onClick={() => fetchAnimeData()}>Load More</button>
+      </div>
+    </>
   );
 };
 
