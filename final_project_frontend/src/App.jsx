@@ -7,6 +7,7 @@ import ErrorPage from './pages/ErrorPage'
 import { AuthProvider } from './AuthContext'
 import Registration from './pages/Registration'
 import WelcomePage from './pages/WelcomePage'
+import ShowList from './components/ShowList'
 
 function App() {
 
@@ -15,9 +16,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/WelcomePage" element={<WelcomePage/>} />
           <Route path="/register" element={<Registration/>} />
+          <Route path="/WelcomePage" element={<WelcomePage/>} />
           <Route path="/UserProfile" element={<UserProfile />} />
+          <Route path="/ShowList" element={<ShowList/>}/>
           <Route path="/Logout" element={<LogoutPage />} />
           <Route path="/ErrorPage" element={<ErrorPage/>} />
         </Routes>

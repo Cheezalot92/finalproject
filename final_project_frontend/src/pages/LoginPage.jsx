@@ -73,7 +73,6 @@ export default function LoginPage() {
 
   return (
     <LoginForm onSubmit={handleSubmit}>
-      <NavBar />
       <Label>
         Username
         <Input

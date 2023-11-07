@@ -10,13 +10,15 @@ const NavBar = () => {
           <li>
             <Link to="/">Home</Link>
           </li>
-          {/* pathName === "UserProfile" ?  :null */}
           <li>
             <Link to="/register">Register Here</Link>
           </li>
           <li>
             <Link to="/UserProfile">Profile</Link>
           </li>
+                  <li>
+                    <Link to="/ShowList">Anime List</Link>
+            </li>
           <li>
             <Link to="/WelcomePage">Welcome</Link>
           </li>
