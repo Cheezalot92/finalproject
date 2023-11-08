@@ -1,18 +1,18 @@
 import styled from "styled-components";
 
 export const StyledNav = styled.nav`
-  background-color: #f2f2f2;
+  background-color: #060606;
   padding: 15px;
   text-align: center;
 
   a {
-    color: #f6052d;
+    color: #f5f5f5;
     text-decoration: none;
     padding: 10px;
     display: inline-block;
 
     &:hover {
-      background-color: #ddd;
+      background-color: #f70404;
       color: #121111;
     }
   }

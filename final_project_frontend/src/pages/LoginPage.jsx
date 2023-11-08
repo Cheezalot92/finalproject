@@ -91,7 +91,7 @@ export default function LoginPage() {
           onChange={handleChangePassword}
         ></Input>
       </Label>
-      <Button type="submit" >Login</Button>
+      <Button type="submit" disabled={ !password || !username}>Login</Button>
     </LoginForm>
   );
 }

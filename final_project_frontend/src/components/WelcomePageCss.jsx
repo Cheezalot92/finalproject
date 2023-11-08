@@ -11,12 +11,16 @@ export const StyleWelcome = styled.div`
   }
   
   h1 {
-    font-size: 24px;
+    outline: 5px outset white;
+    outline-color: #f7f7f7;
+    color: red;
+    font-size: 40px;
     margin-bottom: 20px;
   }
   
   p {
-    font-size: 16px;
+    color: red;
+    font-size: 18px;
     margin-bottom: 40px;
   }
   
@@ -27,8 +31,8 @@ export const StyleWelcome = styled.div`
   }
   
   .box {
-    width: 250px;
-    height: 250px;
+    width: 270px;
+    height: 270px;
     margin: 20px;
     text-align: center;
     border: 1px solid #ccc;
@@ -37,8 +41,8 @@ export const StyleWelcome = styled.div`
   }
   
   .box img {
-    width: 100px;
-    height: 100px;
+    width: 220px;
+    height: 120px;
     margin: 0 auto;
     display: block;
 
