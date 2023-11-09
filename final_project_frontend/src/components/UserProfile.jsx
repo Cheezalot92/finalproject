@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import NavBar from "../pages/NavBar";
 import styled from "styled-components";
 import { useAuth } from "../AuthContext";
@@ -76,92 +76,88 @@ import { useAuth } from "../AuthContext";
 //   margin-top: 10px;
 // `;
 
-
-
-
- const UserProfile = () => {
+const UserProfile = () => {
   const [userProfile, setUserProfile] = useState("");
   const [reviews, setReviews] = useState([]);
   const [shows, setShows] = useState([]);
+  const userId = localStorage.getItem("user_id")
 
-  
-    useEffect(() => {
-      // Fetch user profile
-      fetch('http://127.0.0.1:8000/users/', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': localStorage.getItem('access_token')
-        }
-      })
-        .then(response => response.json())
-        .then(data => setUserProfile(data))
-        .catch(error => console.error('Error fetching user profile:', error));
-  
-      // Fetch user's reviews
-      fetch('http://127.0.0.1:8000/reviews/', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': localStorage.getItem('access_token')
-        }
-      })
-        .then(response => response.json())
-        .then(data => setReviews(data))
-        .catch(error => console.error('Error fetching reviews:', error));
-  
-      // Fetch all shows
-      fetch('http://127.0.0.1:8000/shows/', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': localStorage.getItem('access_token')
-        }
-      })
-        .then(response => response.json())
-        .then(data => setShows(data))
-        .catch(error => console.error('Error fetching shows:', error));
-    }, []); // Empty dependency array ensures this effect runs once when the component mounts
-  
-    return (
-      <div>
-        <NavBar/>
-        <h1>User Profile</h1>
-        {userProfile && (
-          <div>
-            <p>Username: {userProfile.username}</p>
-            <p>Bio: {userProfile.bio}</p>
-            <p>Avatar: <img src="/FakeAvatar.png"/></p>
-            {/* Add more user profile details as needed */}
-          </div>
-        )}
-  
-        <h2>Reviews</h2>
-        <ul>
-          {reviews.map(review => (
-            <li key={review.id}>
-              <p>User: {review.user.username}</p>
-              <p>Rating: {review.rating}</p>
-              <p>Review Text: {review.review_text}</p>
-              {/* Add more review details as needed */}
-            </li>
-          ))}
-        </ul>
-  
-        <h2>Shows</h2>
-        <ul>
-          {shows.map(show => (
-            <li key={show.id}>
-              <p>Title: {show.title}</p>
-              <p>Category: {show.category}</p>
-              <p>Year: {show.year}</p>
-              {/* Add more show details as needed */}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-}
+  useEffect(() => {
+    // Fetch user profile... needs to access specific user ID? save id , track token.
+    fetch(`http://127.0.0.1:8000/users/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("access_token"),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setUserProfile(data))
+      .catch((error) => console.error("Error fetching user profile:", error));
 
-  
+    // Fetch user's reviews
+    fetch("http://127.0.0.1:8000/reviews/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("access_token"),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setReviews(data))
+      .catch((error) => console.error("Error fetching reviews:", error));
+
+    // Fetch all shows
+    fetch("http://127.0.0.1:8000/shows/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("access_token"),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setShows(data))
+      .catch((error) => console.error("Error fetching shows:", error));
+  }, []); // Empty dependency array ensures this effect runs once when the component mounts
+  console.log({ userProfile });
+  return (
+    <div>
+      <NavBar />
+      <h1>User Profile</h1>
+      {userProfile && (
+        <div>
+          <p>Username: {userProfile.username}</p>
+          <p>Bio: {userProfile.bio}</p>
+          <img src={userProfile.avatar} />
+          {/* Add more user profile details as needed */}
+        </div>
+      )}
+
+      <h2>Reviews</h2>
+      <ul>
+        {reviews.map((review) => (
+          <li key={review.id}>
+            <p>User: {review.user.username}</p>
+            <p>Rating: {review.rating}</p>
+            <p>Review Text: {review.review_text}</p>
+            {/* Add more review details as needed */}
+          </li>
+        ))}
+      </ul>
+
+      <h2>Shows</h2>
+      <ul>
+        {shows.map((show) => (
+          <li key={show.id}>
+            <p>Title: {show.title}</p>
+            <p>Category: {show.category}</p>
+            <p>Year: {show.year}</p>
+            {/* Add more show details as needed */}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 export default UserProfile;

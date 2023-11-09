@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Registration from "./Registration";
@@ -32,10 +32,6 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-
-
-
-
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -64,11 +60,12 @@ export default function LoginPage() {
       body: JSON.stringify(user),
     }).then((response) => response.json());
     console.log("Data is", data);
-    const { access, refresh } = data;
+    const { access, refresh, user_id } = data;
     if (access !== undefined) {
       window.location.href = "/WelcomePage";
       localStorage.clear();
       localStorage.setItem("access_token", access);
+      localStorage.setItem("user_id", user_id);
       localStorage.setItem("refresh_token", refresh);
     }
   };
@@ -93,8 +90,13 @@ export default function LoginPage() {
           onChange={handleChangePassword}
         ></Input>
       </Label>
-      <Button type="submit" disabled={!password || !username}>Login</Button>
-      <p>If you don't have an account , register here <Link to="/register">Register Here</Link></p>
+      <Button type="submit" disabled={!password || !username}>
+        Login
+      </Button>
+      <p>
+        If you don't have an account , register here{" "}
+        <Link to="/register">Register Here</Link>
+      </p>
     </LoginForm>
   );
 }
