@@ -4,6 +4,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model=User
@@ -14,6 +15,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
 
         data['username'] = self.user.username
+        data["user_id"] = self.user.id
         data['groups'] = self.user.groups.values_list('name', flat=True)
         return data
 
@@ -24,9 +26,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 
 class ShowsSerializer(serializers.ModelSerializer):
+    category_name = serializers.CharField(source='category')
     class Meta:
         model = Shows
-        fields = '__all__'
+        fields = ['id','title', 'description', 'category', 'category_name']
 
 class ReviewsSerializer(serializers.ModelSerializer):
     class Meta:

@@ -6,6 +6,8 @@ const Registration = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [bio, setBio] = useState("");
+  const [avatar, setAvatar] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const url = "http://localhost:8000/register/";
   const navigate = useNavigate();
@@ -14,8 +16,8 @@ const Registration = () => {
     e.preventDefault();
     setIsLoading(true);
     // Create a user registration request to your backend API
-    const registrationData = { username, email, password };
-
+    const registrationData = { username, email, password, bio, avatar };
+    console.log(setEmail)
     // You can use the fetch API or an HTTP library like Axios to send the registration request
     try {
       const response = await fetch(url, {
@@ -30,8 +32,10 @@ const Registration = () => {
         setEmail("");
         setPassword("");
         setUsername("");
+        setBio("");
+        setAvatar("");
         setIsLoading(false);
-        navigate("/UserProfile");
+        navigate("/WelcomePage");
         // Registration was successful
         // You can redirect the user to a login page or any other page
       } else {
@@ -70,9 +74,25 @@ const Registration = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
+        <label>
+          Bio: Say a few things about yourself:
+          <input
+            type="bio"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+          />
+        </label>
+        <label>
+          Upload a Profile Avatar:
+          <input
+            type="file"
+            value={avatar}
+            onChange={(e) => setAvatar(e.target.value)}
+          />
+        </label>
         <button
           type="submit"
-          disabled={!email || !password || !username || isLoading}
+          disabled={!email || !password || !username || !bio || isLoading}
         >
           Register
         </button>

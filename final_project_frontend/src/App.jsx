@@ -9,6 +9,7 @@ import Registration from './pages/Registration'
 import WelcomePage from './pages/WelcomePage'
 import ShowList from './components/ShowList'
 
+
 function App() {
 
   return (

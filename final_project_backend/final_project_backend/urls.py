@@ -20,7 +20,6 @@ from rest_framework import routers
 from anime_review import views
 from rest_framework_simplejwt import views as jwt_views
 
-
 router = routers.DefaultRouter()
 router.register(r'users', views.UserProfileViewSet, basename='users')
 router.register(r'shows', views.ShowsViewSet, basename='shows')

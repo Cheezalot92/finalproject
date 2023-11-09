@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState } from "react"
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Registration from "./Registration";
 
 const LoginForm = styled.form`
   background-color: #d90b0b;
@@ -91,7 +93,8 @@ export default function LoginPage() {
           onChange={handleChangePassword}
         ></Input>
       </Label>
-      <Button type="submit" disabled={ !password || !username}>Login</Button>
+      <Button type="submit" disabled={!password || !username}>Login</Button>
+      <p>If you don't have an account , register here <Link to="/register">Register Here</Link></p>
     </LoginForm>
   );
 }

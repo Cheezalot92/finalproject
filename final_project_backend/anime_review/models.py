@@ -28,10 +28,12 @@ class Categories(models.Model):
     def __str__(self):
         return self.name
 
-    
+# The API call to shows will also need to return:
+# Category name (this is via the category Foreign Key) 
+# This data will be sent via the SERIALIZER for Show
 class Shows(models.Model):
     title = models.CharField(max_length=256, null=True)
-    category = models.CharField(max_length=50, null=True)
+    category = models.ForeignKey(Categories, on_delete=models.CASCADE, null=True)
     year = models.IntegerField()
     description = models.TextField()
     ratings = models.FloatField()
@@ -41,6 +43,10 @@ class Shows(models.Model):
         return self.title
     
 
+# The API call for reviews will also need to return:
+# Show information (this is via the show Foreign key)
+# User information (this is via the user Foreign key)
+# This data will be sent via the SERIALIZER for Reviews
 class Reviews(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, blank=True)
     show = models.ForeignKey(Shows, on_delete=models.CASCADE, blank=True)
