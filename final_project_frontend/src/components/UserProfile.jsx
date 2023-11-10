@@ -77,23 +77,32 @@ import { useAuth } from "../AuthContext";
 // `;
 
 const UserProfile = () => {
-  const [userProfile, setUserProfile] = useState("");
+  const [userProfile, setUserProfile] = useState({});
   const [reviews, setReviews] = useState([]);
   const [shows, setShows] = useState([]);
   const userId = localStorage.getItem("user_id")
 
   useEffect(() => {
+
+    const init = async () => {
+      const response = await fetch(`http://127.0.0.1:8000/user/${userId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("access_token"),
+        },
+      });
+      const data = await response.json();
+      console.log('My data', data);
+      setUserProfile(data);
+    };
+
+    init();
     // Fetch user profile... needs to access specific user ID? save id , track token.
-    fetch(`http://127.0.0.1:8000/users/${userId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("access_token"),
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setUserProfile(data))
-      .catch((error) => console.error("Error fetching user profile:", error));
+    
+      /*.then((response) => response.json())
+      .then((data) => { setUserProfile(data); console.log(data) })
+      .catch((error) => console.error("Error fetching user profile:", error)); */
 
     // Fetch user's reviews
     fetch("http://127.0.0.1:8000/reviews/", {
@@ -107,7 +116,7 @@ const UserProfile = () => {
       .then((data) => setReviews(data))
       .catch((error) => console.error("Error fetching reviews:", error));
 
-    // Fetch all shows
+     // Fetch all shows
     fetch("http://127.0.0.1:8000/shows/", {
       method: "GET",
       headers: {
@@ -120,6 +129,7 @@ const UserProfile = () => {
       .catch((error) => console.error("Error fetching shows:", error));
   }, []); // Empty dependency array ensures this effect runs once when the component mounts
   console.log({ userProfile });
+  useEffect(() => {console.log("hello world")},[userProfile])
   return (
     <div>
       <NavBar />

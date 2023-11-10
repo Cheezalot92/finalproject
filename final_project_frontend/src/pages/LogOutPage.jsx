@@ -9,7 +9,7 @@ export default function LogoutPage() {
     const navigate = useNavigate();
   
     const performLogout = async () => {
-      const url = "http://localhost:8000/Logout";
+      const url = "http://localhost:8000/logout/";
       const refresh_token = localStorage.getItem("refresh_token");
       const access_token = localStorage.getItem("access_token");
   
