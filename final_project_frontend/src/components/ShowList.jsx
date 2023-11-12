@@ -13,12 +13,12 @@ const ShowList = () => {
         (currentPage - 1) * 10
       }`;
 
-      // Add category search parameter
+      // category search.. 
       if (searchCategory) {
         apiUrl += `&filter[categories]=${searchCategory}`;
       }
 
-      // Add name search parameter
+      // name search..
       if (searchName) {
         apiUrl += `&filter[text]=${searchName}`;
       }
@@ -27,10 +27,10 @@ const ShowList = () => {
       const data = await response.json();
 
       if (currentPage === 1) {
-        // If it's the first page, set the new data
+        // first page , set new data.
         setAnimeList(data.data);
       } else {
-        // If it's not the first page, append the new data to the existing list
+        // if not first page , add more data.
         setAnimeList((prevList) => [...prevList, ...data.data]);
       }
 
@@ -45,14 +45,14 @@ const ShowList = () => {
 
   const handleCategorySearch = (category) => {
     setSearchCategory(category);
-    setCurrentPage(1); // Reset page to 1 when searching
-    setAnimeList([]); // Clear existing data when searching
+    setCurrentPage(1); 
+    setAnimeList([]);   
     fetchAnimeData();
   };
 
   const handleNameSearch = () => {
-    setCurrentPage(1); // Reset page to 1 when searching
-    setAnimeList([]); // Clear existing data when searching
+    setCurrentPage(1); 
+    setAnimeList([]); 
     fetchAnimeData();
   };
 

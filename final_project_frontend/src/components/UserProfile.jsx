@@ -84,56 +84,120 @@ const UserProfile = () => {
     rating: "",
     reviewText: "",
   });
-  const userId = localStorage.getItem("user_id")
+  const userId = localStorage.getItem("user_id");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch user profile
+        const userResponse = await fetch(`http://127.0.0.1:8000/user/${userId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("access_token"),
+          },
+        });
 
-    const init = async () => {
-      const response = await fetch(`http://127.0.0.1:8000/user/${userId}`, {
-        method: "GET",
+        const userData = await userResponse.json();
+        if (userResponse.ok) {
+          setUserProfile(userData);
+        } else {
+          
+        }
+
+        // Fetch reviews
+        const reviewsResponse = await fetch("http://127.0.0.1:8000/reviews/", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("access_token"),
+          },
+        });
+
+        const reviewsData = await reviewsResponse.json();
+        if (reviewsResponse.ok) {
+          setReviews(reviewsData);
+        } else {
+          
+        }
+
+        // Fetch shows
+        const showsResponse = await fetch("http://127.0.0.1:8000/shows/", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("access_token"),
+          },
+        });
+
+        const showsData = await showsResponse.json();
+        if (showsResponse.ok) {
+          setShows(showsData);
+        } else {
+          
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [userId]);
+
+  const handleReviewSubmit = async (event) => {
+    event.preventDefault();
+  
+    try {
+      // new review submit.. 
+      const reviewResponse = await fetch("http://127.0.0.1:8000/reviews/", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: localStorage.getItem("access_token"),
         },
+        body: JSON.stringify({
+          rating: newReview.rating,
+          review_text: newReview.reviewText,
+          user: userProfile.id,
+          show: shows.title,
+        }),
       });
-      const data = await response.json();
-      console.log('My data', data);
-      setUserProfile(data);
-    };
+  
+      if (reviewResponse.ok) {
+        // fetch review to show the new review.. 
+        const reviewsResponse = await fetch("http://127.0.0.1:8000/reviews/", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("access_token"),
+          },
+        });
+  
+        const reviewsData = await reviewsResponse.json();
+        setReviews(reviewsData);
+  
+        //this is to clear the review..
+        setNewReview({
+          rating: "",
+          reviewText: "",
+        });
+      } else {
 
-    init();
-    // Fetch user profile... needs to access specific user ID? save id , track token.
-    
-      /*.then((response) => response.json())
-      .then((data) => { setUserProfile(data); console.log(data) })
-      .catch((error) => console.error("Error fetching user profile:", error)); */
+      }
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    }
+  };
 
-    // Fetch user's reviews
-    fetch("http://127.0.0.1:8000/reviews/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("access_token"),
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setReviews(data))
-      .catch((error) => console.error("Error fetching reviews:", error));
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-     // Fetch all shows
-    fetch("http://127.0.0.1:8000/shows/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("access_token"),
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setShows(data))
-      .catch((error) => console.error("Error fetching shows:", error));
-  }, []); // Empty dependency array ensures this effect runs once when the component mounts
-  console.log({ userProfile });
-  useEffect(() => {console.log("hello world")},[userProfile])
+
   return (
     <div>
       <NavBar />
@@ -146,16 +210,29 @@ const UserProfile = () => {
         </div>
       )}
 
-      <h2>Reviews</h2>
-      <ul>
-        {reviews.map((review) => (
-          <li key={review.id}>
-            <p>User: {review.user.username}</p>
-            <p>Rating: {review.rating}</p>
-            <p>Review Text: {review.review_text}</p>
-          </li>
-        ))}
-      </ul>
+<h2>Submit a Review</h2>
+      <form onSubmit={handleReviewSubmit}>
+        <label>
+          Rating:
+          <input
+            type="number"
+            value={newReview.rating}
+            onChange={(e) =>
+              setNewReview({ ...newReview, rating: e.target.value })
+            }
+          />
+        </label>
+        <label>
+          Review Text:
+          <textarea
+            value={newReview.reviewText}
+            onChange={(e) =>
+              setNewReview({ ...newReview, reviewText: e.target.value })
+            }
+          />
+        </label>
+        <button type="submit">Submit Review</button>
+      </form>
 
       <h2>Shows</h2>
       <ul>
