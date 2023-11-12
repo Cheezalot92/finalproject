@@ -1,15 +1,15 @@
 import React from "react";
-import { StyleWelcome } from "../components/WelcomePageCss";
+// import { StyleWelcome } from "../components/WelcomePageCss";
 import NavBar from "./NavBar";
+import styled from "styled-components";
 
 
 
 
 const StyleWelcome = styled.div`
 
-
 .container {
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     text-align: center;
   }
@@ -59,7 +59,7 @@ const StyleWelcome = styled.div`
   }
   `
 
-  
+
 
 export default function WelcomePage(props) {
     return (
@@ -73,7 +73,7 @@ export default function WelcomePage(props) {
         <div className="box">
           <img src="/Naruto.png" alt="Random Anime Poster" />
           <h2>Latest Anime</h2>
-          <p>Stay up-to-date on the newest and hottest anime releases.</p>
+              <p>Stay up-to-date on the newest and hottest anime releases.</p>
         </div>
 
         <div className="box">

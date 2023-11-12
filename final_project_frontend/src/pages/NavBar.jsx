@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { StyledNav } from "../components/NavBarCss";
+// import { StyledNav } from "../components/NavBarCss";
 import styled from "styled-components";
 
 
@@ -17,8 +17,8 @@ import styled from "styled-components";
     display: inline-block;
 
     &:hover {
-      background-color: #f70404;
-      color: #121111;
+      background-color: #898989;
+      color: #bd0303;
     }
   }
 
@@ -38,9 +38,6 @@ const NavBar = () => {
         <ul>
           <li>
             <Link to="/WelcomePage">Home</Link>
-          </li>
-          <li>
-            <Link to="/register">Register Here</Link>
           </li>
           <li>
             <Link to="/UserProfile">Profile</Link>

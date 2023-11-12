@@ -80,6 +80,10 @@ const UserProfile = () => {
   const [userProfile, setUserProfile] = useState({});
   const [reviews, setReviews] = useState([]);
   const [shows, setShows] = useState([]);
+  const [newReview, setNewReview] = useState({
+    rating: "",
+    reviewText: "",
+  });
   const userId = localStorage.getItem("user_id")
 
   useEffect(() => {
@@ -139,7 +143,6 @@ const UserProfile = () => {
           <p>Username: {userProfile.username}</p>
           <p>Bio: {userProfile.bio}</p>
           <img src={userProfile.avatar} />
-          {/* Add more user profile details as needed */}
         </div>
       )}
 
@@ -150,7 +153,6 @@ const UserProfile = () => {
             <p>User: {review.user.username}</p>
             <p>Rating: {review.rating}</p>
             <p>Review Text: {review.review_text}</p>
-            {/* Add more review details as needed */}
           </li>
         ))}
       </ul>
@@ -162,7 +164,6 @@ const UserProfile = () => {
             <p>Title: {show.title}</p>
             <p>Category: {show.category}</p>
             <p>Year: {show.year}</p>
-            {/* Add more show details as needed */}
           </li>
         ))}
       </ul>

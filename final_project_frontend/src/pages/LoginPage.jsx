@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Registration from "./Registration";
 
 const LoginForm = styled.form`
-  background-color: #d90b0b;
+  background-color: #090909;
   padding: 20px;
   border-radius: 10px;
   width: 300px;
