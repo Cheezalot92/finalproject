@@ -67,6 +67,7 @@ export default function LoginPage() {
       localStorage.setItem("access_token", access);
       localStorage.setItem("user_id", user_id);
       localStorage.setItem("refresh_token", refresh);
+      localStorage.setItem("username", username)
     }
   };
 

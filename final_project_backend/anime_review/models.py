@@ -48,7 +48,7 @@ class Shows(models.Model):
 # User information (this is via the user Foreign key)
 # This data will be sent via the SERIALIZER for Reviews
 class Reviews(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
     show = models.ForeignKey(Shows, on_delete=models.CASCADE, blank=True)
     rating = models.FloatField()
     review_text = models.TextField()
