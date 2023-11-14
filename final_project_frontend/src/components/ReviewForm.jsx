@@ -31,15 +31,9 @@ const SubmitReviewButton = styled.button`
   margin-top: 10px;
 `;
 
-
-
-
-
-
-const ReviewForm = ({ newReview, onSubmit }) => {
+const ReviewForm = ({ onSubmit }) => {
   const [rating, setRating] = useState("");
-    const [reviewText, setReviewText] = useState("");
-    const userProfile = localStorage.getItem("user_id")
+  const [reviewText, setReviewText] = useState("");
 
   const handleRatingChange = (event) => {
     setRating(event.target.value);
@@ -50,15 +44,14 @@ const ReviewForm = ({ newReview, onSubmit }) => {
   };
 
   const handleSubmit = async (event) => {
-      event.preventDefault();
-      
+    event.preventDefault();
 
-      const payload = {
-        rating: newReview.rating,
-        review_text: newReview.reviewText,
-        user: userProfile.id, // assuming userProfile.id is the user's ID
-        show: shows.id, // assuming shows.id is the show's ID
-      };
+    const payload = {
+      rating,
+      review_text: reviewText,
+      user: localStorage.getItem("user_id"),
+      show: localStorage.getItem("shows_id"),
+    };
 
     const reviewResponse = await fetch("http://127.0.0.1:8000/reviews/", {
       method: "POST",
@@ -90,25 +83,18 @@ const ReviewForm = ({ newReview, onSubmit }) => {
     <form onSubmit={handleSubmit}>
       <label>
         Rating:
-        <input
-          type="number"
-          value={rating}
-          onChange={handleRatingChange}
-        />
+        <input type="number" value={rating} onChange={handleRatingChange} />
       </label>
       <label>
         Review Text:
-        <textarea
-          value={reviewText}
-          onChange={handleReviewTextChange}
-        />
+        <textarea value={reviewText} onChange={handleReviewTextChange} />
       </label>
       <SubmitReviewButton type="submit">Submit Review</SubmitReviewButton>
     </form>
   );
 };
 
-const ReviewSection = ({ userProfile, setReviews, shows }) => {
+const ReviewSection = ({ setReviews }) => {
   const [loading, setLoading] = useState(true);
   const [reviews, setReviewsState] = useState([]);
 
@@ -149,14 +135,7 @@ const ReviewSection = ({ userProfile, setReviews, shows }) => {
     return <div>Loading reviews...</div>;
   }
 
-  return (
-    <ReviewForm
-  newReview={newReview}
-  onSubmit={handleReviewSubmit}
-  onRatingChange={(rating) => setNewReview({ ...newReview, rating })}
-  onReviewTextChange={(reviewText) => setNewReview({ ...newReview, reviewText })}
-/>
-  );
+  return <ReviewForm onSubmit={handleReviewSubmit} />;
 };
 
 export default ReviewSection;

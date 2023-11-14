@@ -52,6 +52,8 @@ const UserProfile = () => {
   const [userProfile, setUserProfile] = useState({});
   const [shows, setShows] = useState([])
   const [loading, setLoading] = useState(true);
+  const [reviews, setReviews] = useState([]);
+  const [newReview, setNewReview] = useState("")
   const userId = localStorage.getItem("user_id");
 
   useEffect(() => {

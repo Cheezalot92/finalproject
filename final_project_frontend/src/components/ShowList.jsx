@@ -90,17 +90,14 @@ const ShowList = () => {
           <button onClick={handleNameSearch}>Search</button>
         </div>
         <ul>
-          {animeList.map((anime) => (
-            <li key={anime.id}>
-              <h3>{anime.attributes.titles.en}</h3>
-              <img
-                src={anime.attributes.posterImage.small}
-                alt={anime.attributes.titles.en}
-              />
-              <p>Rating: {anime.attributes.averageRating}</p>
-              <p>Description: {anime.attributes.synopsis}</p>
-            </li>
-          ))}
+        {animeList.map((anime) => (
+  <li key={anime.id}>
+    <a href={`/anime/${anime.id}`}><h3>{anime.attributes.titles.en}</h3></a>
+    <img src={anime.attributes.posterImage.small} alt={anime.attributes.titles.en} />
+    <p>Rating: {anime.attributes.averageRating}</p>
+    <p>Description: {anime.attributes.synopsis}</p>
+  </li>
+))}
         </ul>
         <button onClick={() => fetchAnimeData()}>Load More</button>
       </div>
