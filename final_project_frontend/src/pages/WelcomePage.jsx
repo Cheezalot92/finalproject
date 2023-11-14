@@ -7,17 +7,19 @@ import UserProfile from "../components/UserProfile";
 const StyleWelcome = styled.div`
   .container {
     width: 100%;
-    margin: 0 auto;
+    margin: auto;
+    margin-top: 20px;
     text-align: center;
   }
 
   h1 {
+    margin-top: 150px;
     outline: 5px outset white;
     outline-color: #f7f7f7;
     background-color: black;
     color: red;
     font-size: 40px;
-    margin-bottom: 20px;
+    
   }
 
   p {

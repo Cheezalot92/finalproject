@@ -22,7 +22,7 @@ const ReviewInput = styled.textarea`
 `;
 
 const SubmitReviewButton = styled.button`
-  background-color: #f6052d;
+  background-color: #050505;
   color: white;
   padding: 10px 20px;
   border: none;

@@ -26,10 +26,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 
 class ShowsSerializer(serializers.ModelSerializer):
-    category_name = serializers.CharField(source='category')
+    category_name = serializers.CharField(source='category', required=False)
     class Meta:
         model = Shows
-        fields = ['id','title', 'description', 'category', 'category_name']
+        fields = ['id','title','year', 'ratings', 'description', 'category',  'category_name', 'category_id']
 
 class ReviewsSerializer(serializers.ModelSerializer):
     class Meta:

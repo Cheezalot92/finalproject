@@ -5,15 +5,14 @@ import { useAuth } from "../AuthContext";
 import ReviewSection from "./ReviewForm";
 
 const UserProfileContainer = styled.div`
-   background-color: #ff0000;
-  border: 1px solid #0a0000;
-  padding: 40px;
-  margin: 20px 20px 20px 20px;
-  
+  background-color: #dc2f02;
+  border: 1px solid #ffba08;
+  padding: 100px;
+  margin: 50px 50px 50px 50px;
 `;
 
 const ProfileHeader = styled.h1`
-   color: #000;
+  color: #000;
   font-family: sans-serif;
 `;
 
@@ -47,26 +46,29 @@ const FavoriteShowsList = styled.ul`
   }
 `;
 
-
 const UserProfile = () => {
   const [userProfile, setUserProfile] = useState({});
-  const [shows, setShows] = useState([])
+  const [shows, setShows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reviews, setReviews] = useState([]);
-  const [newReview, setNewReview] = useState("")
+  const [newReview, setNewReview] = useState("");
+  const [watchLaterShows, setWatchLaterShows] = useState([]);
   const userId = localStorage.getItem("user_id");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Fetch user profile
-        const userResponse = await fetch(`http://127.0.0.1:8000/user/${userId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: localStorage.getItem("access_token"),
-          },
-        });
+        const userResponse = await fetch(
+          `http://127.0.0.1:8000/user/${userId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: localStorage.getItem("access_token"),
+            },
+          }
+        );
 
         const userData = await userResponse.json();
         if (userResponse.ok) {
@@ -85,6 +87,28 @@ const UserProfile = () => {
     fetchData();
   }, []);
 
+  const addToWatchLater = async () => {
+    const result = await fetch("http://127.0.0.1:8000/shows/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("access_token"),
+      },
+    });
+    const data = await result.json();
+    console.log({ result });
+    console.log({ data });
+    if (!result.ok) {
+      throw new Error("Error adding show to watch later");
+    }
+
+    setWatchLaterShows(data);
+  };
+
+  useEffect(() => {
+    addToWatchLater();
+  }, []);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -93,19 +117,27 @@ const UserProfile = () => {
     <div>
       <NavBar />
       <UserProfileContainer>
-        <ProfileHeader>User Profile</ProfileHeader>
+        <ProfileHeader>{userProfile.username}'s Profile</ProfileHeader>
         {userProfile && (
           <div>
-            <p>Username: {userProfile.username}</p>
             <p>Bio: {userProfile.bio}</p>
             <img src={userProfile.avatar} />
           </div>
         )}
-
-<ReviewSection
+        {watchLaterShows && (
+          <div>
+            <h2>Watch Later</h2>
+            <ul>
+              {watchLaterShows.map((show) => (
+                <li key={show.id}>{show.title}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <ReviewSection
           userProfile={userProfile}
           setReviews={setReviews}
-          shows={shows}
+          shows={setShows}
           newReview={newReview}
           setNewReview={setNewReview}
         />
@@ -113,5 +145,4 @@ const UserProfile = () => {
     </div>
   );
 };
-
 export default UserProfile;

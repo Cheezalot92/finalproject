@@ -6,30 +6,43 @@ import styled from "styled-components";
 
 
 const StyledNav = styled.nav`
-  width: 100% !important;
-  list-style: none;
-  background-color: #0c0c0c;
-  padding: 15px;
-  text-align: center;
-  margin: none;
-  box-sizing: border-box;
-  
+  background-color: #F48C06;
+  position: fixed;
+  top:0;
+  left:0;
+  right:0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-  a {
+  
+  ul{
+    list-style-type:none;
+    display: flex;
     width: 100%;
+    justify-content: space-between;
+  }
+  
+  a {
+    float: left;
+    width: 20%;
+    text-align: center;
     color: #f5f5f5;
-    text-decoration: underline;
-    padding: 10px;
-    display: inline-block;
+    text-decoration: none;
+    padding: 15px;
+    display: block;
 
     &:hover {
-      background-color: #898989;
-      color: #ffffff;
+      background-color: #ff0000;
+      position: fixed;
     }
   }
 
   @media (max-width: 768px) {
-    padding: 5px;
+    padding: 10px;
+    float: none;
+    display: block;
+    width:100%;
 
     a {
       padding: 5px;
