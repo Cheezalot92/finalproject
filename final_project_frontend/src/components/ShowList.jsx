@@ -126,12 +126,10 @@ const ShowList = () => {
                     description: anime.attributes.synopsis,
                     ratings: anime.attributes.averageRating,
                     category_id: anime.attributes.parent_id,
-                    // category: ,
-                    // category_name: ,
                   });
                 }}
               >
-                Add To Watch Later
+                Add To Show's I've Watched
               </button>
             </StyleLi>
           ))}

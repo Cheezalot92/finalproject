@@ -2,6 +2,7 @@ import React from "react";
 // import { StyleWelcome } from "../components/WelcomePageCss";
 import NavBar from "./NavBar";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import UserProfile from "../components/UserProfile";
 
 const StyleWelcome = styled.div`
@@ -16,7 +17,7 @@ const StyleWelcome = styled.div`
     margin-top: 150px;
     outline: 5px outset white;
     outline-color: #f7f7f7;
-    background-color: black;
+    background-color: #00000024;
     color: red;
     font-size: 40px;
     
@@ -35,9 +36,9 @@ const StyleWelcome = styled.div`
   }
 
   .box {
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.124);
     width: 270px;
-    height: 270px;
+    height: 290px;
     margin: 20px;
     text-align: center;
     border: 1px solid #ccc;
@@ -90,6 +91,7 @@ export default function WelcomePage(userProfile) {
           <div className="box">
             <img src="/Slime.png" alt="Recommendations Icon" />
             <h2>Find Your Next Watch</h2>
+            <Link to="/ShowList">Search Here!</Link>
             <p>Discover new anime recommendations based on your preferences.</p>
           </div>
 
