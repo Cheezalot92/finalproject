@@ -3,26 +3,29 @@ import { Link } from "react-router-dom";
 // import { StyledNav } from "../components/NavBarCss";
 import styled from "styled-components";
 
-
-
 const StyledNav = styled.nav`
-  background-color: #F48C06;
+  background-color: #f48c06;
   position: fixed;
-  top:0;
-  left:0;
-  right:0;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  
-  ul{
-    list-style-type:none;
+  ul {
+    list-style-type: none;
     display: flex;
     width: 100%;
     justify-content: space-between;
   }
-  
+
+  li {
+    &:hover {
+      background-color: #ff0000;
+    }
+  }
+
   a {
     float: left;
     width: 20%;
@@ -33,8 +36,7 @@ const StyledNav = styled.nav`
     display: block;
 
     &:hover {
-      background-color: #ff0000;
-      position: fixed;
+      /* color: black; */
     }
   }
 
@@ -42,7 +44,7 @@ const StyledNav = styled.nav`
     padding: 10px;
     float: none;
     display: block;
-    width:100%;
+    width: 100%;
 
     a {
       padding: 5px;
@@ -61,9 +63,9 @@ const NavBar = () => {
           <li>
             <Link to="/UserProfile">Profile</Link>
           </li>
-                  <li>
-                    <Link to="/ShowList">Anime</Link>
-            </li>
+          <li>
+            <Link to="/ShowList">Anime</Link>
+          </li>
           <li>
             <Link to="/Logout">Logout</Link>
           </li>

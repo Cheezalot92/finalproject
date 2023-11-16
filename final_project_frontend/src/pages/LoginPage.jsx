@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Registration from "./Registration";
 
 const LoginForm = styled.form`
   background-color: #090909;
@@ -24,12 +23,20 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  background-color: #0c0c0c;
+  background-color: #ffba08;
   color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+`;
+
+const LoginTitle = styled.h1`
+  color:#ffba08;
+`;
+
+const LoginH2 = styled.h2`
+  color:#ffba08;
 `;
 
 export default function LoginPage() {
@@ -60,7 +67,7 @@ export default function LoginPage() {
       body: JSON.stringify(user),
     }).then((response) => response.json());
     console.log("Data is", data);
-    const { access, refresh, user_id } = data;
+    const { access, refresh, user_id, avatar } = data;
     if (access !== undefined) {
       window.location.href = "/WelcomePage";
       localStorage.clear();
@@ -68,10 +75,14 @@ export default function LoginPage() {
       localStorage.setItem("user_id", user_id);
       localStorage.setItem("refresh_token", refresh);
       localStorage.setItem("username", username)
+      localStorage.setItem("avatar", avatar )
     }
   };
 
   return (
+    <>
+      <LoginTitle>AllAnime!</LoginTitle>
+      <LoginH2>Your one-stop destination for all things anime!</LoginH2>
     <LoginForm onSubmit={handleSubmit}>
       <Label>
         Username
@@ -98,6 +109,7 @@ export default function LoginPage() {
         If you don't have an account , register here{" "}
         <Link to="/register">Register Here</Link>
       </p>
-    </LoginForm>
+      </LoginForm>
+      </>
   );
 }

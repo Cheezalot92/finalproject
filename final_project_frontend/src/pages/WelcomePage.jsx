@@ -1,9 +1,7 @@
 import React from "react";
-// import { StyleWelcome } from "../components/WelcomePageCss";
 import NavBar from "./NavBar";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import UserProfile from "../components/UserProfile";
 
 const StyleWelcome = styled.div`
   .container {
@@ -16,15 +14,15 @@ const StyleWelcome = styled.div`
   h1 {
     margin-top: 150px;
     outline: 5px outset white;
-    outline-color: #f7f7f7;
+    outline-color: #ffba08;
     background-color: #00000024;
-    color: red;
+    color: #ffba08;
     font-size: 40px;
-    
+    padding: 10px;
   }
 
   p {
-    color: red;
+    color: #ffba08;
     font-size: 18px;
     margin-bottom: 40px;
   }
@@ -36,12 +34,12 @@ const StyleWelcome = styled.div`
   }
 
   .box {
-    background-color: rgba(0, 0, 0, 0.124);
+    background-color: #222(0, 0, 0, 0.124);
     width: 270px;
     height: 290px;
     margin: 20px;
     text-align: center;
-    border: 1px solid #ccc;
+    border: 1px solid #ffba08;
     border-radius: 10px;
     padding: 20px;
   }

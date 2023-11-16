@@ -5,24 +5,25 @@ import { useAuth } from "../AuthContext";
 import ReviewSection from "./ReviewForm";
 
 const UserProfileContainer = styled.div`
-  background-color: #dc2f02;
+  background-color: #222;
   border: 1px solid #ffba08;
   padding: 50px;
   margin: 50px 50px;
   width: 100%;
-  /* display: flex; */
   flex-direction: column;
   align-items: center;
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-template-rows: 1fr 2fr;
-  grid-gap: 10px;
-  padding: 20px;
 
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-gap: 20px;
+    margin: 20px;
+  }
 `;
 
 const ProfileHeader = styled.h1`
-  color: #000;
+  color: #ffba08;
   font-family: sans-serif;
   font-size: 30px;
   text-align: center;
@@ -37,20 +38,19 @@ const ProfilePicture = styled.img`
 `;
 
 const ProfileBio = styled.p`
- font-size: 16px;
+  font-size: 16px;
   line-height: 1.5;
   margin-bottom: 20px;
   text-align: center;
 `;
 
-const FavoriteShowsHeading = styled.h2`
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 20px;
-`;
-
 const ShowList = styled.ul`
-  background-color: rgba(0, 0, 0, 0.377); /* Adjust the opacity value between 0 and 1 to control the transparency */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.377
+  ); /* Adjust the opacity value between 0 and 1 to control the transparency */
   padding: 10px;
   border: 4px solid #ffba08;
   border-radius: 5px;
@@ -60,7 +60,6 @@ const ShowList = styled.ul`
     color: white;
     font-size: 16px;
     margin-bottom: 10px;
-
   }
 `;
 
@@ -83,14 +82,7 @@ const ShowListItem = styled.li`
 
 const Div2 = styled.div`
   margin: 50px;
-  
-
 `;
-
-
-
-
-
 
 const UserProfile = () => {
   const [userProfile, setUserProfile] = useState({});
@@ -154,7 +146,7 @@ const UserProfile = () => {
   useEffect(() => {
     addToWatchLater();
   }, []);
-
+  
 
   const handleDeleteWatchLaterShow = async (showId) => {
     try {
@@ -169,11 +161,11 @@ const UserProfile = () => {
           },
         }
       );
-  
+
       if (!deleteResponse.ok) {
         throw new Error("Error removing show from watch later");
       }
-  
+
       // Update the watchLaterShows state to remove the deleted show
       const updatedWatchLaterShows = watchLaterShows.filter(
         (show) => show.id !== showId
@@ -194,35 +186,37 @@ const UserProfile = () => {
       <UserProfileContainer>
         <ProfileHeader>{userProfile.username}'s Profile</ProfileHeader>
         {userProfile && (
-  <div>
-    {userProfile.bio && <ProfileBio>Bio: {userProfile.bio}</ProfileBio>}
-    {userProfile.avatar && <img src={userProfile.avatar} alt="User Avatar" />}
-  </div>
-)}
+          <div>
+            {userProfile.bio && <ProfileBio>Bio: {userProfile.bio}</ProfileBio>}
+            {userProfile.avatar && (
+              <img src={userProfile.avatar} alt="profile_images" />
+            )}
+          </div>
+        )}
         {watchLaterShows && (
-  <div>
-    <h2>Show's I've Watched!</h2>
-    <ShowList>
-      {watchLaterShows.map((show) => (
-        <ShowListItem key={show.id}>
-          {show.title}
-          <button onClick={() => handleDeleteWatchLaterShow(show.id)}>
-            Remove
-          </button>
-        </ShowListItem>
-      ))}
-    </ShowList>
-  </div>
-)}
+          <div>
+            <h2>Show's I've Watched!</h2>
+            <ShowList>
+              {watchLaterShows.map((show) => (
+                <ShowListItem key={show.id}>
+                  {show.title}
+                  <button onClick={() => handleDeleteWatchLaterShow(show.id)}>
+                    Remove
+                  </button>
+                </ShowListItem>
+              ))}
+            </ShowList>
+          </div>
+        )}
         <Div2>
-        <ReviewSection
-          userProfile={userProfile}
-          setReviews={setReviews}
-          shows={setShows}
-          newReview={newReview}
-          setNewReview={setNewReview}
+          <ReviewSection
+            userProfile={userProfile}
+            setReviews={setReviews}
+            shows={setShows}
+            newReview={newReview}
+            setNewReview={setNewReview}
           />
-          </Div2>
+        </Div2>
       </UserProfileContainer>
     </div>
   );

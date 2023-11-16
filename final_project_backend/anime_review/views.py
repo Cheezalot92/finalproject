@@ -28,6 +28,8 @@ class ShowsViewSet(viewsets.ModelViewSet):
 class ReviewsViewSet(viewsets.ModelViewSet):
     queryset = Reviews.objects.all()
     serializer_class = ReviewsSerializer
+
+        
     # permission_classes = [IsAuthenticated]
 
 class CategoriesViewSet(viewsets.ModelViewSet):

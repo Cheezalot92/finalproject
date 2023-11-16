@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 
 const ReviewArea = styled.div`
@@ -36,16 +36,20 @@ const ReviewForm = ({ onSubmit, reviews, setReviews }) => {
   const [reviewText, setReviewText] = useState("");
   const [show, setShow] = useState("");
   const [allShows, setAllShows] = useState([]);
+  const ref = useRef();
 
   const handleRatingChange = (event) => {
+    event.preventDefault();
     setRating(event.target.value);
   };
 
   const handleReviewTextChange = (event) => {
+    event.preventDefault();
     setReviewText(event.target.value);
   };
 
   const handleSelectChange = (event) => {
+    event.preventDefault();
     setShow(event.target.value);
   };
 
@@ -64,10 +68,10 @@ const ReviewForm = ({ onSubmit, reviews, setReviews }) => {
       }
 
       const showsData = await response.json();
-      return showsData; // Assuming showsData is an array of shows
+      return showsData;
     } catch (error) {
       console.error("Error fetching shows:", error);
-      return []; // Return an empty array or handle the error as needed
+      return [];
     }
   };
 
@@ -82,21 +86,26 @@ const ReviewForm = ({ onSubmit, reviews, setReviews }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    // console.log({ event });
+    console.log(ref.current);
+    const formData = new FormData(ref.current);
+    console.log({ formData });
+    console.log(formData.entries());
+    formData.append("user", localStorage.getItem("user_id"));
     const payload = {
       rating,
       review_text: reviewText,
       user: localStorage.getItem("user_id"),
-      show: show,
+      show: show.title,
     };
 
     const reviewResponse = await fetch("http://127.0.0.1:8000/reviews/", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
         Authorization: localStorage.getItem("access_token"),
       },
-      body: JSON.stringify(payload),
+      body: formData,
     });
     if (!reviewResponse.ok) {
       throw new Error("Error");
@@ -104,7 +113,7 @@ const ReviewForm = ({ onSubmit, reviews, setReviews }) => {
 
     const reviewsData = await reviewResponse.json();
 
-    console.log("New Review Data:", reviewsData);
+    // console.log("New Review Data:", reviewsData);
 
     setReviews(...reviews, reviewsData);
     setShow("");
@@ -112,13 +121,13 @@ const ReviewForm = ({ onSubmit, reviews, setReviews }) => {
     setReviewText("");
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <form ref={ref} onSubmit={handleSubmit}>
       <label>
         Show:
-        <select value={show} onChange={handleSelectChange}>
-          <option value="">Select a show</option>
+        <select>
+          <option>Select a show</option>
           {allShows.map((show) => (
-            <option key={show.id} value={show.id}>
+            <option name="show" key={show.id}>
               {show.title}
             </option>
           ))}
@@ -126,11 +135,17 @@ const ReviewForm = ({ onSubmit, reviews, setReviews }) => {
       </label>
       <label>
         Rating:
-        <input type="number" value={rating} onChange={handleRatingChange} />
+        <input name="rating" type="number" />
       </label>
       <label>
         Review Text:
-        <textarea value={reviewText} onChange={handleReviewTextChange} />
+        <textarea
+          name="review_text"
+          rows={1}
+          type="text"
+          // value={reviewText}
+          // onChange={handleReviewTextChange}
+        />
       </label>
       <SubmitReviewButton type="submit">Submit Review</SubmitReviewButton>
     </form>
@@ -220,10 +235,11 @@ const ReviewSection = ({ setReviews }) => {
       />
       <ReviewArea>
         <ReviewHeading>Reviews</ReviewHeading>
-        {/* Render your reviews here */}
         {reviews.map((review) => (
           <div key={review.id}>
-            <p>User: {review.user.username}</p>
+            {/* {console.log(reviews)} */}
+            <p>User: {review.user}</p>
+            <p>Title: {review.show}</p>
             <p>Rating: {review.rating}</p>
             <p>Review Text: {review.review_text}</p>
             <button onClick={() => handleDeleteReview(review.id)}>
