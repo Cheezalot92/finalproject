@@ -2,6 +2,21 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+
+
+const Background = styled.div`
+  background-image:url(/background2.png);
+  background-size: cover;
+  background-position: center;
+  height: 110vh;
+  width: 110vw;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-around; */
+`
+
+
+
 const LoginForm = styled.form`
   background-color: #090909;
   padding: 20px;
@@ -16,7 +31,7 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-  width: 100%;
+  width: 80%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -32,11 +47,18 @@ const Button = styled.button`
 `;
 
 const LoginTitle = styled.h1`
+  background-color: #00000086;
+  background-size:contain;
+  margin: 0;
+  margin-top: 120px;
   color:#ffba08;
 `;
 
 const LoginH2 = styled.h2`
-  color:#ffba08;
+  color:#ffb700;
+  margin:0;
+  margin-bottom:200px;
+  background-color: #00000086;
 `;
 
 export default function LoginPage() {
@@ -81,6 +103,7 @@ export default function LoginPage() {
 
   return (
     <>
+      <Background>
       <LoginTitle>AllAnime!</LoginTitle>
       <LoginH2>Your one-stop destination for all things anime!</LoginH2>
     <LoginForm onSubmit={handleSubmit}>
@@ -109,7 +132,8 @@ export default function LoginPage() {
         If you don't have an account , register here{" "}
         <Link to="/register">Register Here</Link>
       </p>
-      </LoginForm>
+        </LoginForm>
+        </Background>
       </>
   );
 }
