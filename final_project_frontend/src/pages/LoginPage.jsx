@@ -9,7 +9,7 @@ const Background = styled.div`
   background-size: cover;
   background-position: center;
   height: 110vh;
-  width: 110vw;
+  width: 130vw;
   display: flex;
   flex-direction: column;
   /* justify-content: space-around; */
@@ -50,7 +50,7 @@ const LoginTitle = styled.h1`
   background-color: #00000086;
   background-size:contain;
   margin: 0;
-  margin-top: 120px;
+  margin-top: 140px;
   color:#ffba08;
 `;
 
