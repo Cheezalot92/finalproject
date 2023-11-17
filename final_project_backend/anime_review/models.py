@@ -49,7 +49,7 @@ class Shows(models.Model):
 # This data will be sent via the SERIALIZER for Reviews
 class Reviews(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
-    show = models.ForeignKey(Shows, on_delete=models.CASCADE, blank=True , null=True)
+    shows = models.ForeignKey(Shows, on_delete=models.CASCADE, blank=True , null=True)
     rating = models.FloatField()
     review_text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

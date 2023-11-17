@@ -18,7 +18,7 @@ from django.contrib.auth.hashers import make_password
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
 class ShowsViewSet(viewsets.ModelViewSet):
     queryset = Shows.objects.all()
@@ -28,8 +28,6 @@ class ShowsViewSet(viewsets.ModelViewSet):
 class ReviewsViewSet(viewsets.ModelViewSet):
     queryset = Reviews.objects.all()
     serializer_class = ReviewsSerializer
-
-        
     # permission_classes = [IsAuthenticated]
 
 class CategoriesViewSet(viewsets.ModelViewSet):

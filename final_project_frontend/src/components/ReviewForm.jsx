@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const ReviewArea = styled.div`
@@ -36,20 +36,16 @@ const ReviewForm = ({ onSubmit, reviews, setReviews }) => {
   const [reviewText, setReviewText] = useState("");
   const [show, setShow] = useState("");
   const [allShows, setAllShows] = useState([]);
-  const ref = useRef();
 
   const handleRatingChange = (event) => {
-    event.preventDefault();
     setRating(event.target.value);
   };
 
   const handleReviewTextChange = (event) => {
-    event.preventDefault();
     setReviewText(event.target.value);
   };
 
   const handleSelectChange = (event) => {
-    event.preventDefault();
     setShow(event.target.value);
   };
 
@@ -86,26 +82,21 @@ const ReviewForm = ({ onSubmit, reviews, setReviews }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // console.log({ event });
-    console.log(ref.current);
-    const formData = new FormData(ref.current);
-    console.log({ formData });
-    console.log(formData.entries());
-    formData.append("user", localStorage.getItem("user_id"));
+
     const payload = {
       rating,
       review_text: reviewText,
       user: localStorage.getItem("user_id"),
-      show: show.title,
+      show: show,
     };
 
     const reviewResponse = await fetch("http://127.0.0.1:8000/reviews/", {
       method: "POST",
       headers: {
-        // "Content-Type": "application/json",
+        "Content-Type": "application/json",
         Authorization: localStorage.getItem("access_token"),
       },
-      body: formData,
+      body: JSON.stringify(payload),
     });
     if (!reviewResponse.ok) {
       throw new Error("Error");
@@ -113,7 +104,7 @@ const ReviewForm = ({ onSubmit, reviews, setReviews }) => {
 
     const reviewsData = await reviewResponse.json();
 
-    // console.log("New Review Data:", reviewsData);
+    console.log("New Review Data:", reviewsData);
 
     setReviews(...reviews, reviewsData);
     setShow("");
@@ -121,13 +112,13 @@ const ReviewForm = ({ onSubmit, reviews, setReviews }) => {
     setReviewText("");
   };
   return (
-    <form ref={ref} onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <label>
         Show:
-        <select>
-          <option>Select a show</option>
+        <select value={show} onChange={handleSelectChange}>
+          <option value="">Select a show</option>
           {allShows.map((show) => (
-            <option name="show" key={show.id}>
+            <option key={show.id} value={show.id}>
               {show.title}
             </option>
           ))}
@@ -135,22 +126,21 @@ const ReviewForm = ({ onSubmit, reviews, setReviews }) => {
       </label>
       <label>
         Rating:
-        <input name="rating" type="number" />
+        <input type="number" value={rating} onChange={handleRatingChange} />
       </label>
       <label>
         Review Text:
         <textarea
-          name="review_text"
           rows={1}
-          type="text"
-          // value={reviewText}
-          // onChange={handleReviewTextChange}
+          value={reviewText}
+          onChange={handleReviewTextChange}
         />
       </label>
       <SubmitReviewButton type="submit">Submit Review</SubmitReviewButton>
     </form>
   );
 };
+
 
 const ReviewSection = ({ setReviews }) => {
   const [loading, setLoading] = useState(true);
@@ -172,7 +162,7 @@ const ReviewSection = ({ setReviews }) => {
       if (reviewsResponse.ok) {
         setReviewsState(reviewsData);
       } else {
-        // Handle error case
+        
       }
 
       setLoading(false);
@@ -237,9 +227,7 @@ const ReviewSection = ({ setReviews }) => {
         <ReviewHeading>Reviews</ReviewHeading>
         {reviews.map((review) => (
           <div key={review.id}>
-            {/* {console.log(reviews)} */}
-            <p>User: {review.user}</p>
-            <p>Title: {review.show}</p>
+            <p>User: {review.user.username}</p>
             <p>Rating: {review.rating}</p>
             <p>Review Text: {review.review_text}</p>
             <button onClick={() => handleDeleteReview(review.id)}>

@@ -32,8 +32,6 @@ class ShowsSerializer(serializers.ModelSerializer):
         fields = ['id','title','year', 'ratings', 'description', 'category',  'category_name', 'category_id']
 
 class ReviewsSerializer(serializers.ModelSerializer):
-    # user = serializers.StringRelatedField()
-    show = serializers.StringRelatedField()
     class Meta:
         model = Reviews
         fields = '__all__'
